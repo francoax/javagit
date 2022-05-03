@@ -70,7 +70,7 @@ public class jdbc {
 	
 	
 	
-	public void buscarProducto(int id) {
+	public Product buscarProducto(int id) {
 		
 		Connection conection = null;
 		
@@ -108,17 +108,14 @@ public class jdbc {
 			
 			conection.close();
 			
-			System.out.println("Producto "+id);
-			System.out.println(pSearched);
-			System.out.println();System.out.println();
-			
+			return pSearched;
 			
 		} catch (SQLException  ex) {
 		    System.out.println("SQLException: " + ex.getMessage());
 		    System.out.println("SQLState: " + ex.getSQLState());
 		    System.out.println("VendorError: " + ex.getErrorCode());
 		}
-		
+		return null;
 	}
 	
 	
@@ -194,7 +191,7 @@ public class jdbc {
 			
 			conn = DriverManager.getConnection("jdbc:mysql://localhost/javamarket?user=user&password=asd123");
 			PreparedStatement pstmt = conn.prepareStatement(
-					"delete from product where id = ?");
+					"delete from product where idProduct = ?");
 			
 			pstmt.setInt(1, id);
 			pstmt.executeUpdate();
@@ -211,9 +208,43 @@ public class jdbc {
 		
 	}
 	
-	public void modificarProducto() {
+	public void modificarProducto(String nombre, String description) {
+		
+		Connection conn = null;
+		
+		try {
+			
+			conn = DriverManager.getConnection("jdbc:mysql://localhost/javamarket?user=user&password=asd123");
+			PreparedStatement pstmt = conn.prepareStatement(
+					"update product set name=?, description=? where ");
+			
+			
+			
+		} catch (Exception e) {
+	        JOptionPane.showMessageDialog(null, "Error al modificar." + e.getMessage());
+	    }
 		
 	}
+	
+	public void modificarProducto(float precio) {
+		
+	}
+	
+	public void modificarProducto(boolean shippingIncluded) {
+		
+	}
+	
+//	public void openConnection() {
+//		
+//		Connection conn = null;
+//		
+//		try {
+//			conn = DriverManager.getConnection("jdbc:mysql://localhost/javamarket?user=user&password=123");
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
+//		
+//	}
 	
 	
 	

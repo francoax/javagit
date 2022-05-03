@@ -43,7 +43,7 @@ public class Principal {
 					System.out.println("Busqueda de producto.");
 					System.out.print("Ingrese codigo de producto: ");
 					idP = reader.nextInt();
-					db.buscarProducto(idP);
+					System.out.println(db.buscarProducto(idP));
 					break;
 				case 3:
 					
@@ -81,7 +81,7 @@ public class Principal {
 					db.eliminarProducto(idP);
 					break;
 				case 5:
-					db.modificarProducto();
+					modificarProducto();
 					break;
 				case 0:
 					out = true;
@@ -100,5 +100,61 @@ public class Principal {
 		
 		
 	}
+	
+	
+	public static void modificarProducto() {
+		
+		jdbc db = new jdbc();
+		
+		Scanner reader = new Scanner(System.in);
+		
+		System.out.print("ID de producto a modificar: ");
+		int id = reader.nextInt();
+		System.out.println();
+		
+		System.out.println("Producto a modificar: \n"+db.buscarProducto(id));
+		System.out.println();
+		System.out.println("Cambiar: \n 1-nombre y descripcion \n 2-precio \n 3-envio \n 0-salir");
+		int opc = reader.nextInt();
+		
+		while(opc!=0) {
+			
+			switch (opc) {
+			
+				case 1: {
+					System.out.print("Nombre nuevo: ");
+					String nombre = reader.nextLine();
+					System.out.print("Nueva descripcion: ");
+					String desc = reader.nextLine();
+					db.modificarProducto(nombre, desc);
+					break;
+				}
+				case 2 : {
+					System.out.print("Nuevo precio: ");
+					float precio = reader.nextFloat();
+					db.modificarProducto(precio);
+					break;
+				}
+				case 3: {
+					System.out.print("Definir envio: t (true) o f (false): ");
+					String shipp = reader.nextLine();
+					boolean shippingIncluded;
+					if(shipp.equals("t")) {
+						 shippingIncluded = true;
+					} else {
+						 shippingIncluded = false;
+					}
+					db.modificarProducto(shippingIncluded);
+					break;
+				
+				}
+			
+			}
+			
+		}
+		
+	}
+	
+	
 
 }
