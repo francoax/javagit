@@ -105,39 +105,41 @@ public class Principal {
 	public static void modificarProducto() {
 		
 		jdbc db = new jdbc();
-		
-		Scanner reader = new Scanner(System.in);
+		boolean out = false;
+		Scanner read = new Scanner(System.in);
 		
 		System.out.print("ID de producto a modificar: ");
-		int id = reader.nextInt();
+		int id = read.nextInt();
 		System.out.println();
 		
 		System.out.println("Producto a modificar: \n"+db.buscarProducto(id));
 		System.out.println();
-		System.out.println("Cambiar: \n 1-nombre y descripcion \n 2-precio \n 3-envio \n 0-salir");
-		int opc = reader.nextInt();
 		
-		while(opc!=0) {
+		
+		while(!out) {
+			
+			try {
+			System.out.println("Cambiar: \n 1-nombre y descripcion \n 2-precio \n 3-envio \n 0-salir");
+			int opc = read.nextInt();
 			
 			switch (opc) {
 			
-				case 1: {
+				case 1:
+					System.out.println();
 					System.out.print("Nombre nuevo: ");
-					String nombre = reader.nextLine();
+					String nombre = read.nextLine();
 					System.out.print("Nueva descripcion: ");
-					String desc = reader.nextLine();
-					db.modificarProducto(nombre, desc);
+					String desc = read.nextLine();
+					db.modificarProducto(nombre, desc, id);
 					break;
-				}
-				case 2 : {
+				case 2 : 
 					System.out.print("Nuevo precio: ");
-					float precio = reader.nextFloat();
+					float precio = read.nextFloat();
 					db.modificarProducto(precio);
 					break;
-				}
-				case 3: {
+				case 3: 
 					System.out.print("Definir envio: t (true) o f (false): ");
-					String shipp = reader.nextLine();
+					String shipp = read.nextLine();
 					boolean shippingIncluded;
 					if(shipp.equals("t")) {
 						 shippingIncluded = true;
@@ -146,12 +148,19 @@ public class Principal {
 					}
 					db.modificarProducto(shippingIncluded);
 					break;
-				
-				}
-			
+				case 0: 
+					out= true;
+					break;
+				default:
+					System.out.println("Seleccione una opcion.");
 			}
-			
+			} catch (InputMismatchException e) {
+				System.out.println("Inserte un numero.");
+				read.next();
+			}
 		}
+		
+		read.close();
 		
 	}
 	

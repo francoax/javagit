@@ -208,7 +208,7 @@ public class jdbc {
 		
 	}
 	
-	public void modificarProducto(String nombre, String description) {
+	public void modificarProducto(String nombre, String description, int id) {
 		
 		Connection conn = null;
 		
@@ -216,13 +216,27 @@ public class jdbc {
 			
 			conn = DriverManager.getConnection("jdbc:mysql://localhost/javamarket?user=user&password=asd123");
 			PreparedStatement pstmt = conn.prepareStatement(
-					"update product set name=?, description=? where ");
+					"update product "
+					+ "set name=?, description=? "
+					+ "where idProduct=?");
+			
+			pstmt.setString(1, nombre);
+			pstmt.setString(2, description);
+			pstmt.setInt(3, id);
+			
+			pstmt.executeUpdate();
+			
+			pstmt.close();
+			conn.close();
+						
+						//("update articulos set descripcion='" + tf1.getText() + "'," +"precio=" + tf2.getText() + " where codigo="+tf3.getText());
 			
 			
-			
-		} catch (Exception e) {
-	        JOptionPane.showMessageDialog(null, "Error al modificar." + e.getMessage());
-	    }
+			}	catch (SQLException ex) {
+			    System.out.println("SQLException: " + ex.getMessage());
+			    System.out.println("SQLState: " + ex.getSQLState());
+			    System.out.println("VendorError: " + ex.getErrorCode());
+		}
 		
 	}
 	
