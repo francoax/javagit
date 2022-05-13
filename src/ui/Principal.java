@@ -21,6 +21,7 @@ public class Principal {
 		
 		while(!out) {
 			
+			
 			System.out.println("1. Listar productos.");
 			System.out.println("2. Buscar producto.");
 			System.out.println("3. Cargar nuevo producto.");
@@ -30,8 +31,9 @@ public class Principal {
 			
 			try {
 				
+				int opcion;
 				System.out.print("Opcion: ");
-				int opcion = reader.nextInt();
+				opcion = reader.nextInt();
 				int idP = 0;
 				
 				switch (opcion) {
@@ -81,7 +83,7 @@ public class Principal {
 					db.eliminarProducto(idP);
 					break;
 				case 5:
-					modificarProducto();
+					modificarProducto(reader);
 					break;
 				case 0:
 					out = true;
@@ -102,15 +104,14 @@ public class Principal {
 	}
 	
 	
-	public static void modificarProducto() {
+	public static void modificarProducto(Scanner reader) {
 		
 		jdbc db = new jdbc();
 		boolean out = false;
-		Scanner read = new Scanner(System.in);
+//		Scanner read = new Scanner(System.in);
 		
 		System.out.print("ID de producto a modificar: ");
-		int id = read.nextInt();
-		System.out.println();
+		int id = reader.nextInt();
 		
 		System.out.println("Producto a modificar: \n"+db.buscarProducto(id));
 		System.out.println();
@@ -119,34 +120,37 @@ public class Principal {
 		while(!out) {
 			
 			try {
+			
 			System.out.println("Cambiar: \n 1-nombre y descripcion \n 2-precio \n 3-envio \n 0-salir");
-			int opc = read.nextInt();
+			int opc = reader.nextInt();
 			
 			switch (opc) {
 			
 				case 1:
-					System.out.println();
 					System.out.print("Nombre nuevo: ");
-					String nombre = read.nextLine();
+					String nombre = reader.next();
+					System.out.println();
 					System.out.print("Nueva descripcion: ");
-					String desc = read.nextLine();
+					String desc = reader.next();
 					db.modificarProducto(nombre, desc, id);
 					break;
 				case 2 : 
 					System.out.print("Nuevo precio: ");
-					float precio = read.nextFloat();
-					db.modificarProducto(precio);
+					float precio = reader.nextFloat();
+					db.modificarProducto(precio, id);
 					break;
 				case 3: 
 					System.out.print("Definir envio: t (true) o f (false): ");
-					String shipp = read.nextLine();
+					String shipp = reader.nextLine();
 					boolean shippingIncluded;
 					if(shipp.equals("t")) {
 						 shippingIncluded = true;
+						 db.modificarProducto(shippingIncluded, id);
 					} else {
 						 shippingIncluded = false;
+						 db.modificarProducto(shippingIncluded, id);
 					}
-					db.modificarProducto(shippingIncluded);
+					
 					break;
 				case 0: 
 					out= true;
@@ -156,11 +160,9 @@ public class Principal {
 			}
 			} catch (InputMismatchException e) {
 				System.out.println("Inserte un numero.");
-				read.next();
+				reader.next();
 			}
 		}
-		
-		read.close();
 		
 	}
 	
